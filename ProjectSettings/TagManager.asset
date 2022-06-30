@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - terrain
+  - terrainSpawn
+  - grass
+  - ground
+  - coal
+  - crafting
+  - nextTile
+  - previousTile
+  - tree
+  - manager
+  - destructable
+  - dirt
+  - rock
+  - diamond
+  - ruby
+  - coalCollectable
+  - rubyCollectable
+  - diamondCollectable
+  - rockCollectable
+  - volume
+  - enemy
+  - woodCollectable
+  - water
+  - tuna
+  - tunaCollectable
+  - fire
+  - Ground
+  - Block
+  - itemCount
+  - appleCollectable
+  - appleButton
+  - cookedTunaCollectable
+  - cookedTunaButton
+  - apple
+  - tunaCooked
+  - mainUI
+  - keyShop
+  - keyButton
+  - endShop
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Enemy
+  - Player
+  - IgnoreCollision
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

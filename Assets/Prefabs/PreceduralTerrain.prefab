@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2508390070548826920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2508390070548826934}
+  - component: {fileID: 2508390070548826935}
+  m_Layer: 0
+  m_Name: PreceduralTerrain
+  m_TagString: terrain
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2508390070548826934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508390070548826920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2508390070548826935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2508390070548826920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f11be7d0ae172498f811001ca9fba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 89
+  height: 20
+  startPos: 0
+  minRockHeight: 3
+  maxRockHeight: 5
+  maxTerrainHeight: 35
+  rubyChancePercent: 0
+  coalChancePercent: 0
+  diamondChancePercent: 0
+  trees:
+  - {fileID: 495101209095116310, guid: 48335c1a35008e04899dfaf0647127fa, type: 3}
+  - {fileID: 2237604199758483885, guid: 628365e6df8cfd64598d2be63a143e09, type: 3}
+  - {fileID: 465173152595773519, guid: ef8c487ac6848cb43bcb51ed00c336b9, type: 3}
+  rocks:
+  - {fileID: 4219447882030621099, guid: a9e6570679b6864449b04f7ac24b305a, type: 3}
+  - {fileID: 7941386420549641811, guid: 3f77821d869d6aa4eba0bd5ea69b7e3d, type: 3}
+  - {fileID: 4551832973606087994, guid: 31be680fe3ac1404d8d0c4977d823ebd, type: 3}
+  - {fileID: 356364579835763417, guid: 0592aedd42ddfe245b27589b40b6a80a, type: 3}
+  dirtTilemap: {fileID: 8617144402762083554, guid: ad9a6468c320eda48a92c3661958e30b, type: 3}
+  grassTilemap: {fileID: 2239845319985649312, guid: 202df9d4046265a49b6b679a4ab26ad8, type: 3}
+  rockTilemap: {fileID: 6891555525683925504, guid: d18462cd758521b42bba522442d83732, type: 3}
+  dirt: {fileID: 11400000, guid: fbe61b45b7510f44cad1a46b271725b4, type: 2}
+  grass: {fileID: 11400000, guid: cf59473fce663ad49a44cf4fd72d1894, type: 2}
+  rock: {fileID: 11400000, guid: 693709b55c36d0f468d07ab3aa23b1cc, type: 2}
+  coal: {fileID: 11400000, guid: 1bc3fa6f4a826184a82a3cdd36db246a, type: 2}
+  ruby: {fileID: 11400000, guid: bc824f36ad60c53438e718f286af256a, type: 2}
+  diamond: {fileID: 11400000, guid: 3f70e835654ffc344995a053445589b5, type: 2}
