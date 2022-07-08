@@ -43,6 +43,10 @@ TagManager:
   - keyShop
   - keyButton
   - endShop
+  - deathScreen
+  - GameManager
+  - Light
+  - PlayerAudio
   layers:
   - Default
   - TransparentFX

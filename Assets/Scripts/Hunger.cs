@@ -9,6 +9,9 @@ public class Hunger : MonoBehaviour
     public GameObject player;
     public Slider hungerBar;
     public float hungerValue;
+
+    public Audio manager;
+    private float nextSoundTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +45,42 @@ public class Hunger : MonoBehaviour
         if (hungerValue >= 100)
         {
             hungerValue = 100;
+        }
+
+        if (hungerValue <= 75 && hungerValue > 50)
+        {
+            if (Time.time >= nextSoundTime)
+            {
+                manager.Play(manager.hungerSound1, manager.sfxSource);
+                nextSoundTime += 20;
+            }
+        }
+
+        if (hungerValue <= 50 && hungerValue > 25)
+        {
+            if (Time.time >= nextSoundTime)
+            {
+                manager.Play(manager.hungerSound2, manager.sfxSource);
+                nextSoundTime += 20;
+            }
+        }
+
+        if (hungerValue <= 25 && hungerValue > 0)
+        {
+            if (Time.time >= nextSoundTime)
+            {
+                manager.Play(manager.hungerSound3, manager.sfxSource);
+                nextSoundTime += 20;
+            }
+        }
+
+        if (hungerValue <= 25 && hungerValue > 0)
+        {
+            if (Time.time >= nextSoundTime)
+            {
+                manager.Play(manager.hungerSound4, manager.sfxSource);
+                nextSoundTime += 20;
+            }
         }
     }
 }

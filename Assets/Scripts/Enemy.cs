@@ -15,11 +15,18 @@ public class Enemy : MonoBehaviour
     public LayerMask ignore;
     public Slider healthBar;
     public GameObject ruby, diamond, food;
+
+    private float nextSoundTime;
+
+    public AudioClip death;
+    public AudioClip passive;
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindWithTag("Player").transform;
         gameObject.transform.GetChild(0).GetComponent<Canvas>().worldCamera = Camera.main;
+
+        nextSoundTime = Random.Range(5, 10);
     }
 
     // Update is called once per frame
@@ -44,13 +51,22 @@ public class Enemy : MonoBehaviour
         }
 
         healthBar.value = GetComponent<Health>().health / 80;
+        if (Time.time >= nextSoundTime)
+        {
+            AudioSource.PlayClipAtPoint(passive, transform.position, 0.4f);
+            nextSoundTime += Random.Range(5, 10);
+        }
+
+        if (GetComponent<Health>().health <= 0)
+        {
+            AudioSource.PlayClipAtPoint(death, transform.position);
+        }
     }
 
     void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("hit");
             other.gameObject.GetComponent<PlayerControl>().health -= 1;
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KillPlayer : MonoBehaviour
 {
+    public Audio manager;
     // Start is called before the first frame update
     void Start()
     {

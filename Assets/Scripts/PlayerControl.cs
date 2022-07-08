@@ -47,6 +47,21 @@ public class PlayerControl : MonoBehaviour
     private bool hoveringOverUI;
     private RaycastHit2D hit;
 
+    private GameObject deathScreen;
+    private GameObject[] mainUI;
+
+    public Audio manager;
+
+    private float nextSoundTimeHeartbeat;
+    private float nextSoundTimeHitting;
+    private float nextSoundTimeWalking;
+    private float minPitchRange = 1.2f;
+    private float maxPitchRange = 0.8f;
+
+    private bool onGrass;
+    private bool onRock;
+
+    private bool deathSound = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +77,10 @@ public class PlayerControl : MonoBehaviour
         {
             secondaryItems[i].SetActive(false);
         }
+
+        mainUI = GameObject.FindGameObjectsWithTag("mainUI");
+        deathScreen = GameObject.FindWithTag("deathScreen");
+        deathScreen.SetActive(false);
     }
 
 
@@ -155,7 +174,46 @@ public class PlayerControl : MonoBehaviour
         //Death
         if (health <= 0)
         {
-            Destroy(gameObject);
+            if (deathSound) {
+                manager.sfxSource.pitch = 1;
+                manager.sfxSource.volume = 0.6f;
+                manager.Play(manager.playerDeath1, manager.sfxSource);
+                deathSound = false;
+            }
+            deathScreen.SetActive(true);
+            foreach (GameObject ui in mainUI)
+            {
+                ui.SetActive(false);
+            }
+            Time.timeScale = 0;
+        }
+
+        //HealthSound
+        if (health <= 80 && health > 60)
+        {
+            if (Time.time >= nextSoundTimeHeartbeat)
+            {
+                manager.Play(manager.health1, manager.sfxSource);
+                nextSoundTimeHeartbeat += manager.health1.length;
+            }
+        }
+
+        if (health <= 60 && health > 30)
+        {
+            if (Time.time >= nextSoundTimeHeartbeat)
+            {
+                manager.Play(manager.health2, manager.sfxSource);
+                nextSoundTimeHeartbeat += manager.health2.length;
+            }
+        }
+
+        if (health <= 30)
+        {
+            if (Time.time >= nextSoundTimeHeartbeat)
+            {
+                manager.Play(manager.health3, manager.sfxSource);
+                nextSoundTimeHeartbeat += manager.health3.length;
+            }
         }
 
         //Jump
@@ -163,7 +221,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetKeyDown("space"))
             {
-                rb.velocity = Vector2.up * jumpForce * Time.deltaTime;
+                rb.AddForce(rb.transform.up * jumpForce * 50f * Time.deltaTime);
             }
         }
 
@@ -245,6 +303,11 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetMouseButton(0) && hit.distance < 1.5f)
             {
+                if (Time.time >= nextSoundTimeHitting)
+                {
+                    manager.PlayRandom(manager.hittingSound, manager.sfxSource);
+                    nextSoundTimeHitting += 0.3f;
+                }
                 hit.transform.gameObject.GetComponent<Health>().health -= 1;
                 if (hit.transform.gameObject.GetComponent<Health>().health % 60 == 0)
                 {
@@ -287,12 +350,28 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && hit.distance < 5f)
             {
                 hit.transform.gameObject.GetComponent<Health>().health -= 10;
+                float randomVol = Random.Range(manager.minPitchRange, manager.maxPitchRange);
+                AudioSource.PlayClipAtPoint(manager.enemyHurt, hit.transform.position, randomVol);
                 if (hit.transform.gameObject.GetComponent<Health>().health <= 0)
                 {
                     hit.transform.gameObject.GetComponent<Enemy>().DropItems();
-                    Destroy(hit.transform.gameObject);
+                    DeathSound();
+                    hit.transform.gameObject.SetActive(false);
                 }
             }
+        }
+    }
+
+    void DeathSound()
+    {
+        int ran = Random.Range(0, 2);
+        if (ran == 0)
+        {
+            AudioSource.PlayClipAtPoint(manager.enemyDeath1, hit.transform.position);
+        }
+        if (ran == 1)
+        {
+            AudioSource.PlayClipAtPoint(manager.enemyDeath2, hit.transform.position);
         }
     }
 
@@ -306,6 +385,25 @@ public class PlayerControl : MonoBehaviour
         //Movement.
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed * Time.deltaTime, rb.velocity.y);
+
+
+        if (moveInput != 0 && isGrounded)
+        {
+            if (Time.time >= nextSoundTimeWalking)
+            {
+                if (onGrass)
+                {
+                    manager.PlayRandom(manager.walkGrassSound, manager.sfxSource);
+                    nextSoundTimeWalking += manager.walkGrassSound.length + 0.1f * Time.deltaTime;
+                }
+
+                if (onRock)
+                {
+                    manager.PlayRandom(manager.walkRockSound, manager.sfxSource);
+                    nextSoundTimeWalking += manager.walkRockSound.length + 0.1f * Time.deltaTime;
+                }
+            }
+        }
 
         if (facingRight == false && moveInput > 0)
         {
@@ -346,6 +444,10 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetMouseButton(0) && hit.distance < 1.5f)
             {
+                if (Time.time >= nextSoundTimeHitting) {
+                    manager.PlayRandom(manager.hittingSound, manager.sfxSource);
+                    nextSoundTimeHitting += 0.3f;
+                }
                 GameObject.FindGameObjectWithTag(objHit).GetComponent<TilesDestructable>().hit = hit;
                 if (objectToSpawn == rock)
                 {
@@ -462,42 +564,74 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "grass") {
+            onGrass = true;
+        }
+
+        if (other.gameObject.tag == "rock")
+        {
+            onRock = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "grass")
+        {
+            onGrass = false;
+        }
+
+        if (other.gameObject.tag == "rock")
+        {
+            onRock = false;
+        }
+    }
+
     //BAD - needed separate function.
     //Checking collision and adding to inventory.
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.tag == "coalCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupGemSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().coal += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "rubyCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupGemSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().ruby += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "diamondCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupGemSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().diamond += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "rockCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().rock += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "woodCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupWoodSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().wood += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "tunaCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupSound, manager.sfxSource);
             GameObject.FindWithTag("crafting").GetComponent<Crafting>().tuna += 1;
             Destroy(other.transform.gameObject);
         }
         if (other.gameObject.tag == "appleCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupAppleSound, manager.sfxSource);
             if (GameObject.FindWithTag("crafting").GetComponent<Crafting>().apple < 1)
             {
                 secondaryTools.Add(secondaryItems[0].transform.gameObject);
@@ -507,6 +641,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (other.gameObject.tag == "cookedTunaCollectable" && ePressed)
         {
+            manager.PlayRandom(manager.pickupSound, manager.sfxSource);
             if (GameObject.FindWithTag("crafting").GetComponent<Crafting>().cookedTuna < 1)
             {
                 secondaryTools.Add(secondaryItems[1].transform.gameObject);

@@ -7,6 +7,8 @@ public class EatItem : MonoBehaviour
 {
     private GameObject player;
     private string foodItem;
+
+    public Audio manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +24,10 @@ public class EatItem : MonoBehaviour
 
     public void eatItem(int healValue)
     {
+        GetComponent<AudioSource>().Play();
         if (player.GetComponent<PlayerControl>().health < 100)
         {
             player.GetComponent<PlayerControl>().health += healValue;
-
         }
         else
         {
@@ -34,7 +36,6 @@ public class EatItem : MonoBehaviour
 
         if (gameObject.transform.GetChild(0).GetComponent<Text>().text == "1") 
         {
-
             Destroy(gameObject);
         }
         if (foodItem == "appleButton")

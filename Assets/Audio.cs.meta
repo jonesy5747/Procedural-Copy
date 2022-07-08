@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3f045665262594e45a85f8f110fc4bc7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sfxSource: {instanceID: 0}
+  - musicSource: {instanceID: 0}
+  - hittingSound: {fileID: 8300000, guid: dc79db20a31f8224d9704d1b6522ce4e, type: 3}
+  - pickupSound: {fileID: 8300000, guid: a6592ac7347d523439576ee45258ee34, type: 3}
+  - pickupGemSound: {fileID: 8300000, guid: 3e0e46b3ecacf614d8962f4e8edb972d, type: 3}
+  - pickupWoodSound: {fileID: 8300000, guid: b1b351a977d4b7f42a4b8f3ee509733c, type: 3}
+  - pickupAppleSound: {fileID: 8300000, guid: 5e691604fd2829b45ad32f36419b8274, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

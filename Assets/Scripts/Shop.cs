@@ -7,6 +7,9 @@ public class Shop : MonoBehaviour
 {
     private GameObject KeyShop;
     private GameObject[] mainUI;
+
+    public Audio manager;
+    private bool hasEntered = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,6 +29,10 @@ public class Shop : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             if (Input.GetKeyDown(KeyCode.E)) {
+                if (!hasEntered) {
+                    GetComponent<AudioSource>().Play();
+                    hasEntered = true;
+                }
                 KeyShop.SetActive(true);
                 foreach (GameObject ui in mainUI) 
                 {
@@ -37,6 +44,7 @@ public class Shop : MonoBehaviour
 
     void OnTriggerExit2D (Collider2D other)
     {
+        hasEntered = false;
         if (other.gameObject.tag == "Player")
         {
             KeyShop.SetActive(false);

@@ -12,6 +12,11 @@ public class DayNight : MonoBehaviour
     public bool night = false;
     public Volume vol;
     public float timeStep;
+
+    public Audio manager;
+    private float nextSoundTimeDay;
+    private float nextSoundTimeNight;
+    private bool fade = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +30,12 @@ public class DayNight : MonoBehaviour
 
         if (day)
         {
+            /*manager.Stop(manager.nightMusicSource);
+            if (Time.time >= nextSoundTimeDay)
+            {
+                manager.Play(manager.daySoundtrack, manager.dayMusicSource);
+                nextSoundTimeDay += manager.daySoundtrack.length;
+            }*/
             if (time < 2) {
                 time += timeStep * Time.deltaTime;
                 vol.weight = weight;
@@ -38,6 +49,12 @@ public class DayNight : MonoBehaviour
 
         if (night)
         {
+            /*manager.Stop(manager.dayMusicSource);
+            if (Time.time >= nextSoundTimeNight)
+            {
+                manager.Play(manager.nightSoundtrack, manager.nightMusicSource);
+                nextSoundTimeNight += manager.nightSoundtrack.length;
+            }*/
             if (time > -1)
             {
                 time -= timeStep * Time.deltaTime;
@@ -47,6 +64,26 @@ public class DayNight : MonoBehaviour
             {
                 day = true;
                 night = false;
+            }
+        }
+
+        if (time < 0.5)
+        {
+            manager.Stop(manager.nightMusicSource);
+            if (Time.time >= nextSoundTimeDay)
+            {
+                manager.Play(manager.daySoundtrack, manager.dayMusicSource);
+                nextSoundTimeDay += manager.daySoundtrack.length;
+            }
+        }
+
+        if (time > 0.5)
+        {
+            manager.Stop(manager.dayMusicSource);
+            if (Time.time >= nextSoundTimeNight)
+            {
+                manager.Play(manager.nightSoundtrack, manager.nightMusicSource);
+                nextSoundTimeNight += manager.nightSoundtrack.length;
             }
         }
     }

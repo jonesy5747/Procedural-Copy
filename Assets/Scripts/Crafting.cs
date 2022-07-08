@@ -21,7 +21,8 @@ public class Crafting : MonoBehaviour
     private bool tunaSelected;
     public GameObject tunaCooked;
 
-
+    public Audio manager;
+    private bool achieved;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,19 @@ public class Crafting : MonoBehaviour
     {
         totalMoney = coal * coalValue + ruby * rubyValue + diamond * diamondVlaue + rock * rockValue + wood * woodValue + tuna * tunaValue + apple * appleValue;
         money.text = "$" + totalMoney.ToString(); 
+
+        if (totalMoney >= 100)
+        {
+            if (!achieved) {
+                manager.Play(manager.achievedSound, manager.sfxSource);
+                achieved = true;
+            }
+        }
+
+        if (totalMoney < 100)
+        {
+            achieved = false;
+        }
 
         /*
         if (hit.transform.gameObject.tag == "fire")

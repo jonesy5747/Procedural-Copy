@@ -10,6 +10,8 @@ public class TilesDestructable : MonoBehaviour
     public Tilemap tileReplaceTilemap;
     public TileBase tileReplaceOnDestroy;
     public RaycastHit2D hit;
+    private float nextSoundTime;
+    public Audio manager;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +37,6 @@ public class TilesDestructable : MonoBehaviour
         else
         {
             tilemapDestructable.SetTile(tileReplaceTilemap.WorldToCell(hitPosition), null);
-
         }
     }
 }

@@ -8,6 +8,8 @@ public class Pickup : MonoBehaviour
     public GameObject itemButton;
     private bool ePressed;
 
+    public Audio manager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class Pickup : MonoBehaviour
 
     public void AddKeyToInventory()
     {
+        manager.Play(manager.purchaseSound, manager.sfxSource);
         for (int i = 0; i < inventory.slots.Length; i++)
         {
             if (inventory.isFull[i] == false) 
