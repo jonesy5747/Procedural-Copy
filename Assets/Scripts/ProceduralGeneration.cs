@@ -170,7 +170,7 @@ public class ProceduralGeneration : MonoBehaviour
                 {
                     int tree = Random.Range(0, 3);
                     grassTileMap.SetTile(new Vector3Int(x, y, 0), grassTileBase);
-                    Instantiate(trees[tree], new Vector3Int(x, y + 3, 0), Quaternion.identity);
+                    Instantiate(trees[tree], new Vector3Int(x, y + 35, 0), Quaternion.identity);
                 }
                 if (map[x, y] == 4)
                 {
@@ -259,7 +259,7 @@ public class ProceduralGeneration : MonoBehaviour
                     }
                     if (y > lowestPoint + waterHeight && map[x, y] == 0)
                     {
-                        player.transform.position = new Vector3Int(x, y + 1, 0);
+                        player.transform.position = new Vector3Int(x, y + 50, 0);
                         break;
                     }
                 }
